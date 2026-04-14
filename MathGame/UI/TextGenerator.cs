@@ -9,11 +9,13 @@ namespace MathGame.UI
     {
         public void StartingPrompt()
         {
-            Console.WriteLine("Welcome to the math game! Please select which type of problem you would like to start with");
+            Console.WriteLine("Please select an equation type: addition, subtraction, multiplication or division");
         }
 
-        public void PrintQuestion(int a, int b, Operation operation)
+        public void PrintQuestion(int [] integers, Operation operation)
         {
+            int a = integers[0];
+            int b = integers[1];
             string equationType = operation switch
             {
                 Operation.Addition => "plus",
@@ -23,6 +25,16 @@ namespace MathGame.UI
             };
 
             Console.WriteLine($"What is {a} {equationType} {b}?");
+        }
+
+        public void CorrectGuess(int a)
+        {
+            Console.Write($"Correct, the answer is {a}");
+        }
+
+        public void IncorrectGuess(int a)
+        {
+            Console.Write($"Sorry, the answer is not {a}");
         }
     }
 }
