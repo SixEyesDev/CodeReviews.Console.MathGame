@@ -1,61 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using MathGame.UI;
+﻿using MathGame.UI;
 
 namespace MathGame.Logic
 {
     internal class GameEngine
     {
-        TextGenerator textGenerator = new();
-        InputParser inputParser = new();
-        RandomNumberGenerator randomNumberGenerator = new();
-        EquationHandler equationHandler;
 
-        public GameEngine()
+        InputParser _inputParser = new();
+        RandomNumberGenerator _randomNumberGenerator = new();
+        EquationHandler _equationHandler;
+        TextGenerator _textGenerator;
+
+
+        public GameEngine(TextGenerator textGenerator)
         {
-            equationHandler = new(textGenerator);
+            _textGenerator = textGenerator;
+            _equationHandler = new(textGenerator);
         }
-        public void Run()
+
+        public List<GameData> Run(List<GameData> gameList, int totalQuestions)
         {
-            int correct = 0;
-            int total = 0;
-          
-            while (correct < 5)
-            {     
-                // Ask the user for their desired operation type
-                textGenerator.StartingPrompt();
+            bool gameOver = false;
 
-                // Get the users input and assign the chosen operation to a variable
-                Operation operation = inputParser.GetOperationType();
+            while (!gameOver)
+            {
+                int correct = 0;
+                int total = 0;
 
-                // Get two random numbers between 1 - 10 to feed into our equation
-                int[] integers = randomNumberGenerator.GetRandomIntegers();
-
-                // We return the eqauation as an array so we can supply all the data to our text generator
-                int[] result = equationHandler.PerformOperation(operation, integers);
-
-                // Send the information to the text generator to print the question in the console
-                textGenerator.PrintQuestion(result, operation);
-
-                // Get the users guess
-                int userGuess = inputParser.GetUserGuess();
-
-                // Check users guess against the correct answer, implement their score if correct
-                if (equationHandler.CheckUserGuess(userGuess, result[2]))
+                while (total < totalQuestions)
                 {
-                    correct++;
-                    total++;
+                    // Ask the user for their desired operation type
+                    _textGenerator.AskUserForOperation();
+
+                    // Get the users input and assign the chosen operation to a variable
+                    Operation operation = _inputParser.GetOperationType();
+
+                    // Get two random numbers between 1 - 10 to feed into our equation
+                    int[] integers = _randomNumberGenerator.GetRandomIntegers();
+
+                    // We return the eqauation as an array so we can supply all the data to our text generator
+                    int[] result = _equationHandler.PerformOperation(operation, integers);
+
+                    // Send the information to the text generator to print the question to the console
+                    _textGenerator.PrintQuestion(result, operation);
+
+                    // Get the users guess
+                    int userGuess = _inputParser.GetNumberFromUser();
+
+                    // Check users guess against the correct answer, implement their score if correct
+                    if (_equationHandler.CheckUserGuess(userGuess, result[2]))
+                    {
+                        correct++;
+                        total++;
+                    }
+                    else
+                    {
+                        total++;
+                    }
+                    _textGenerator.PrintScore(correct, total);
+                }
+
+                GameData gameData = new(correct, total);
+                gameList.Add(gameData);
+
+                _textGenerator.Continue();
+
+                if (_inputParser.AllowUserToContinueOrExit())
+                {
+                    gameOver = false;
                 }
                 else
                 {
-                    total++;
+                    gameOver = true;
                 }
-                Console.Write($"  - Correct guesses {correct} / {total}\n\n");
             }
+
+            return gameList;
         }
     }
-    public enum Operation {Addition, Subtraction, Multiplication, Division}
+    public enum Operation { Addition, Subtraction, Multiplication, Division }
 }

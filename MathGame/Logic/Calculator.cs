@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MathGame.Logic
+﻿namespace MathGame.Logic
 {
     internal class Calculator
     {
@@ -20,6 +16,8 @@ namespace MathGame.Logic
         public int[] PerformSubtraction(int a, int b)
         {
             int result = 0;
+
+            // For subtraction I want to ensure the lower number is being subtracted from the higher number
             if (a > b || a == b)
             {
                 result = a - b;
@@ -28,7 +26,6 @@ namespace MathGame.Logic
                 equation[2] = result;
                 return equation;
             }
-    
             else
             {
                 result = b - a;

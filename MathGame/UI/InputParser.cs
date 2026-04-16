@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MathGame.Logic;
+﻿using MathGame.Logic;
 
 namespace MathGame.UI
 {
@@ -10,32 +7,48 @@ namespace MathGame.UI
         // Allow the user to select an operation
         public Operation GetOperationType()
         {
-            Operation operation;
-
-            bool operationAccepted = false;
-            while (!operationAccepted)
+            while (true)
             {
-                string? userOperation = Console.ReadLine();
+                string? rawInput = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(rawInput))
+                {
+                    Console.WriteLine($"Please enter a, s, d or x");
+                    continue;
+                }
 
-                if (Enum.TryParse<Operation>(userOperation, true, out Operation result))
-                {
-                    operation = result;
-                    operationAccepted = true;
-                    Console.Clear();
-                    return result;
-                }
-                else
+                string userInput = rawInput.Trim().ToLowerInvariant();
+
+                if (userInput == "a")
                 {
                     Console.Clear();
-                    Console.WriteLine($"{userOperation} not recognized");
+                    return Operation.Addition;
                 }
-               
+
+                if (userInput == "s")
+                {
+                    Console.Clear();
+                    return Operation.Subtraction;
+                }
+                if (userInput == "m")
+                {
+                    Console.Clear();
+                    return Operation.Multiplication;
+                }
+
+                if (userInput == "d")
+                {
+                    Console.Clear();
+                    return Operation.Division;
+                }
+
+                Console.WriteLine($"{rawInput} not recognized");
             }
-            return Operation.Addition;
+
         }
 
-        public int GetUserGuess()
+        public int GetNumberFromUser()
         {
+            // Return a number for the user, either as an answer or for the number of problems they want for the game
             bool guessAccepted = false;
             int result = 0;
             while (!guessAccepted)
@@ -47,15 +60,78 @@ namespace MathGame.UI
                 {
                     guessAccepted = true;
                     result = userGuess;
-                    
                 }
                 else
                 {
-                    Console.WriteLine($"{userInput} is not an acceptable response");
+                    Console.WriteLine($"{userInput} not recognized");
                 }
             }
             Console.Clear();
             return result;
+        }
+
+        public bool AllowUserToContinueOrExit()
+        {
+            while (true)
+            {
+                string? rawInput = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(rawInput))
+                {
+                    Console.WriteLine($"Please enter start or exit");
+                    continue;
+                }
+
+                string userInput = rawInput.Trim().ToLowerInvariant();
+
+                if (userInput == "start")
+                {
+                    Console.Clear();
+                    return true;
+                }
+
+                if (userInput == "exit")
+                {
+                    Console.Clear();
+                    return false;
+                }
+
+                Console.WriteLine($"{rawInput} not recognized");
+            }
+        }
+
+        public int GetUserMenuOption()
+        {
+            while (true)
+            {
+                string? rawInput = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(rawInput))
+                {
+                    Console.WriteLine("Please enter start, history or exit");
+                    continue;
+                }
+
+                string userInput = rawInput.Trim().ToLowerInvariant();
+
+                if (userInput == "start")
+                {
+                    Console.Clear();
+                    return 1;
+                }
+
+                if (userInput == "history")
+                {
+                    Console.Clear();
+                    return 2;
+                }
+
+                if (userInput == "exit")
+                {
+                    Console.Clear();
+                    return 3;
+                }
+
+                Console.WriteLine($"{rawInput} not recognized");
+            }
         }
     }
 }

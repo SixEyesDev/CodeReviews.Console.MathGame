@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MathGame.UI;
+﻿using MathGame.UI;
 
 namespace MathGame.Logic
 {
     internal class EquationHandler
     {
-        TextGenerator textGenerator1;
+        TextGenerator _textGenerator;
 
         public EquationHandler(TextGenerator textGenerator)
         {
-            textGenerator1 = textGenerator;
+            _textGenerator = textGenerator;
         }
 
         Calculator calculator = new();
+
         public int[] PerformOperation(Operation operation, int[] integers)
         {
             int a = integers[0];
@@ -25,9 +23,9 @@ namespace MathGame.Logic
                 Operation.Addition => calculator.PerformAddition(a, b),
                 Operation.Subtraction => calculator.PerformSubtraction(a, b),
                 Operation.Multiplication => calculator.PerformMultiplication(a, b),
-                Operation.Division => calculator.PerformDivision(a, b)
+                Operation.Division => calculator.PerformDivision(a, b),
+                _ => throw new NotImplementedException()
             };
-
             return result;
         }
 
@@ -35,12 +33,12 @@ namespace MathGame.Logic
         {
             if (a == b)
             {
-                textGenerator1.CorrectGuess(a);
+                _textGenerator.CorrectGuess(a);
                 return true;
             }
             else
             {
-                textGenerator1.IncorrectGuess(a);
+                _textGenerator.IncorrectGuess(a);
                 return false;
             }
         }
