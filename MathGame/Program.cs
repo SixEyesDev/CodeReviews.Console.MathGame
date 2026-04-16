@@ -2,34 +2,34 @@
 using MathGame.UI;
 
 List<GameData> gameList = new();
-TextGenerator textGenerator = new();
-InputParser parser = new();
-GameEngine gameEngine = new(textGenerator);
-DataHandler dataHandler = new();
+TextGenerator _textGenerator = new();
+InputParser _inputParser = new(_textGenerator);
+GameEngine _gameEngine = new(_textGenerator, _inputParser);
+DataHandler _dataHandler = new();
 
-textGenerator.StartingPrompt();
-int problemCount = parser.GetNumberFromUser();
+_textGenerator.StartingPrompt();
+int problemCount = _inputParser.GetNumberFromUser();
 
-gameEngine.Run(gameList, problemCount);
+_gameEngine.Run(gameList, problemCount);
 
 bool gameOver = false;
 
 while (!gameOver)
 {
 
-    textGenerator.MenuPrompt();
+    _textGenerator.MenuPrompt();
 
-    int userChoice = parser.GetUserMenuOption();
+    int userChoice = _inputParser.GetUserMenuOption();
 
     switch (userChoice)
     {
         case 1:
-            textGenerator.StartingPrompt();
-            problemCount = parser.GetNumberFromUser();
-            gameEngine.Run(gameList, problemCount);
+            _textGenerator.StartingPrompt();
+            problemCount = _inputParser.GetNumberFromUser();
+            _gameEngine.Run(gameList, problemCount);
             break;
         case 2:
-            dataHandler.DisplayData(gameList);
+            _dataHandler.DisplayData(gameList);
             break;
         case 3:
             gameOver = true;

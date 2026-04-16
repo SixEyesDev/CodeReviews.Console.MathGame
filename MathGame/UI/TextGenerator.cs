@@ -52,5 +52,13 @@ namespace MathGame.UI
         {
             Console.WriteLine($" - Correct guesses {a} / {b}\n");
         }
+
+
+        public void DisplayError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: {message}");
+            Console.ResetColor();
+        }
     }
 }

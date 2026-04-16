@@ -4,6 +4,12 @@ namespace MathGame.UI
 {
     internal class InputParser
     {
+        TextGenerator _textGenerator;
+
+        public InputParser(TextGenerator textGenerator)
+        {
+            _textGenerator = textGenerator;
+        }
         // Allow the user to select an operation
         public Operation GetOperationType()
         {
@@ -12,7 +18,7 @@ namespace MathGame.UI
                 string? rawInput = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(rawInput))
                 {
-                    Console.WriteLine($"Please enter a, s, d or x");
+                    _textGenerator.DisplayError("Invalid input");
                     continue;
                 }
 
@@ -41,7 +47,7 @@ namespace MathGame.UI
                     return Operation.Division;
                 }
 
-                Console.WriteLine($"{rawInput} not recognized");
+                _textGenerator.DisplayError("Invalid input");
             }
 
         }
@@ -63,7 +69,7 @@ namespace MathGame.UI
                 }
                 else
                 {
-                    Console.WriteLine($"{userInput} not recognized");
+                    _textGenerator.DisplayError("Invalid input");
                 }
             }
             Console.Clear();
@@ -77,7 +83,7 @@ namespace MathGame.UI
                 string? rawInput = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(rawInput))
                 {
-                    Console.WriteLine($"Please enter start or exit");
+                    _textGenerator.DisplayError("Invalid input");
                     continue;
                 }
 
@@ -95,7 +101,7 @@ namespace MathGame.UI
                     return false;
                 }
 
-                Console.WriteLine($"{rawInput} not recognized");
+                _textGenerator.DisplayError("Invalid input");
             }
         }
 
@@ -106,7 +112,7 @@ namespace MathGame.UI
                 string? rawInput = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(rawInput))
                 {
-                    Console.WriteLine("Please enter start, history or exit");
+                    
                     continue;
                 }
 
@@ -130,7 +136,7 @@ namespace MathGame.UI
                     return 3;
                 }
 
-                Console.WriteLine($"{rawInput} not recognized");
+                _textGenerator.DisplayError("Invalid input");
             }
         }
     }

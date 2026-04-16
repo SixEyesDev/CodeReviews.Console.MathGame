@@ -5,15 +5,16 @@ namespace MathGame.Logic
     internal class GameEngine
     {
 
-        InputParser _inputParser = new();
+        InputParser _inputParser;
         RandomNumberGenerator _randomNumberGenerator = new();
         EquationHandler _equationHandler;
         TextGenerator _textGenerator;
 
 
-        public GameEngine(TextGenerator textGenerator)
+        public GameEngine(TextGenerator textGenerator, InputParser inputParser)
         {
             _textGenerator = textGenerator;
+            _inputParser = inputParser;
             _equationHandler = new(textGenerator);
         }
 
