@@ -6,16 +6,17 @@ namespace MathGame.Logic
     {
 
         InputParser _inputParser;
-        RandomNumberGenerator _randomNumberGenerator = new();
+        RandomNumberGenerator _randomNumberGenerator;
         EquationHandler _equationHandler;
         TextGenerator _textGenerator;
 
 
-        public GameEngine(TextGenerator textGenerator, InputParser inputParser)
+        public GameEngine(TextGenerator textGenerator, InputParser inputParser, EquationHandler equationHandler, RandomNumberGenerator randomNumberGenerator)
         {
             _textGenerator = textGenerator;
             _inputParser = inputParser;
-            _equationHandler = new(textGenerator);
+            _equationHandler = equationHandler;
+            _randomNumberGenerator = randomNumberGenerator;
         }
 
         public List<GameData> Run(List<GameData> gameList, int totalQuestions)

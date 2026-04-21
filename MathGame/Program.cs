@@ -4,7 +4,10 @@ using MathGame.UI;
 List<GameData> gameList = new();
 TextGenerator _textGenerator = new();
 InputParser _inputParser = new(_textGenerator);
-GameEngine _gameEngine = new(_textGenerator, _inputParser);
+EquationHandler _equationHandler = new(_textGenerator);
+RandomNumberGenerator _randomNumberGenerator = new();
+
+GameEngine _gameEngine = new(_textGenerator, _inputParser, _equationHandler, _randomNumberGenerator);
 DataHandler _dataHandler = new();
 
 _textGenerator.StartingPrompt();
